@@ -1,0 +1,220 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Google Cloud - Tag - Blog do Pedro Pozzobon</title>
+        <link>http://pedropozzobon.com/tags/google-cloud/</link>
+        <description>Google Cloud - Tag - Blog do Pedro Pozzobon</description>
+        <generator>Hugo -- gohugo.io</generator><language>pt-br</language><managingEditor>pedro@aeroinovacoes.com (Pedro Pozzobon)</managingEditor>
+            <webMaster>pedro@aeroinovacoes.com (Pedro Pozzobon)</webMaster><lastBuildDate>Sun, 02 Aug 2020 12:01:14 -0300</lastBuildDate><atom:link href="http://pedropozzobon.com/tags/google-cloud/" rel="self" type="application/rss+xml" /><item>
+    <title>Ligar e desligar instâncias do Google Compute Engine através de um link</title>
+    <link>http://pedropozzobon.com/ligar-desligar-instancia-compute-engine-link/</link>
+    <pubDate>Sun, 02 Aug 2020 12:01:14 -0300</pubDate>
+    <author>Autor</author>
+    <guid>http://pedropozzobon.com/ligar-desligar-instancia-compute-engine-link/</guid>
+    <description><![CDATA[<h2 id="motivação">Motivação</h2>
+<p>Sempre achei a interface do console do Google Cloud terrivelmente lenta. Em um projeto recente havia a necessidade de ligar e desligar constantemente uma máquina virtual, além de ativar/desativar regras de firewall. A quantidade de vezes em que via a tela de carregamento da interface no console já foi motivação suficiente para tentar automatizar essa tarefa.</p>
+<figure>
+     <figcaption>
+            <h4>Tela de carregamento do Google Cloud</h4>
+        </figcaption>
+</figure>
+
+<p>A solução encontrada foi fazer uma Cloud Function ativada por um request http (ou um link) que liga/desliga uma determinada máquina. Inicialmente procurei por uma solução mais simples, em que não fosse necessário nenhum tipo de código. Caso alguém conheça uma forma mais simples de fazer a mesma tarefa, por favor se manifeste nos comentários.</p>
+<p>O código das funções pode ser visto em <a href="https://github.com/ppozzobon/cloud_funcs_utils" target="_blank" rel="noopener noreffer">meu Github</a>.</p>
+<h2 id="criar-nova-conta-de-serviço">Criar nova conta de serviço</h2>
+<p>A conta de serviço é utilizada pela Cloud Function para interagir com os outros serviços do Google Cloud. Ela deve ter os privilégios suficientes para realizar as tarefas que a função precisa executar.</p>
+<p>Procure pelo item IAM - Admin no Cloud Console, vá para contas de serviço e crie uma nova.</p>
+<figure>
+     <figcaption>
+            <h4>Caminho para criar a conta de serviço</h4>
+        </figcaption>
+</figure>
+
+<p>Dê um nome e uma descrição para conta e vá para o próximo passo.</p>
+<figure>
+     
+</figure>
+
+<p>Defina um papel adequado para a conta. O papel é o que determina o que os serviços que usam essa conta podem ou não podem fazer. Como no caso pretendemos modificar configurações do Compute Engine, sugiro o papel Compute Admin.</p>
+<figure>
+     <figcaption>
+            <h4>Selecione o papel adequado para a conta de serviço</h4>
+        </figcaption>
+</figure>
+
+<p>O último passo não necessita de nenhuma configuração específica.</p>
+<h2 id="criar-a-cloud-function">Criar a Cloud Function</h2>
+<p>Para criar essa Cloud Function, procure esse serviço no console e ative-o, se necesssário. Crie uma nova função, dando um nome e uma região. No tipo de <em>trigger</em>, selecione http e permita chamadas não autenticadas. Isso é potencialmente falho do ponto de vista da segurança, pois qualquer um que conheça a URL e os parâmetros de invocação da função será capaz de ligar/desligar suas máquinas.</p>
+<figure>
+     <figcaption>
+            <h4>Configurações de *triggering* (invocação) da função</h4>
+        </figcaption>
+</figure>
+
+<p>Clique em configurações avançadas e defina a conta de serviço que acabou de ser criada:</p>
+<figure>
+     <figcaption>
+            <h4>Defina a conta de serviço a ser usada pela Cloud Funtion</h4>
+        </figcaption>
+</figure>
+
+<p>No próximo passo selecione a linguagem da função como python e defina o ponto de entrada para <code>main</code>. Copie e cole o código da função e do arquivo <code>requirements.txt</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">googleapiclient.discovery</span>
+
+<span class="n">compute</span> <span class="o">=</span> <span class="n">googleapiclient</span><span class="o">.</span><span class="n">discovery</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="s1">&#39;compute&#39;</span><span class="p">,</span> <span class="s1">&#39;v1&#39;</span><span class="p">,</span> <span class="n">cache_discovery</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="s2">&#34;&#34;&#34;Toggles compute engine instance start-stop
+</span><span class="s2">    &#34;&#34;&#34;</span>
+
+    <span class="n">project</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;project&#39;</span><span class="p">)</span>
+    <span class="n">zone</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;zone&#39;</span><span class="p">)</span>
+    <span class="n">instance_name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;instance&#39;</span><span class="p">)</span>
+
+    <span class="c1"># get current state</span>
+    <span class="n">instance</span> <span class="o">=</span> <span class="n">compute</span><span class="o">.</span><span class="n">instances</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">,</span>
+                                <span class="n">zone</span><span class="o">=</span><span class="n">zone</span><span class="p">,</span>
+                                <span class="n">instance</span><span class="o">=</span><span class="n">instance_name</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+
+    <span class="c1"># decide command</span>
+    <span class="k">if</span> <span class="n">instance</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;TERMINATED&#34;</span><span class="p">:</span>
+        <span class="n">compute</span><span class="o">.</span><span class="n">instances</span><span class="p">()</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">,</span>
+                                <span class="n">zone</span><span class="o">=</span><span class="n">zone</span><span class="p">,</span>
+                                <span class="n">instance</span><span class="o">=</span><span class="n">instance_name</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="s2">&#34;{} turned on&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">instance_name</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">compute</span><span class="o">.</span><span class="n">instances</span><span class="p">()</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">,</span>
+                                <span class="n">zone</span><span class="o">=</span><span class="n">zone</span><span class="p">,</span>
+                                <span class="n">instance</span><span class="o">=</span><span class="n">instance_name</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+        
+        <span class="k">return</span> <span class="s2">&#34;{} turned off&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">instance_name</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">brotlipy==0.7.0
+cachetools
+certifi==2020.6.20
+cffi==1.14.0
+chardet==3.0.4
+cryptography
+google-api-core
+google-api-python-client
+google-auth
+google-auth-httplib2==0.0.3
+googleapis-common-protos==1.51.0
+httplib2
+idna
+protobuf
+pyasn1==0.4.8
+pyasn1-modules==0.2.7
+pycparser
+pyOpenSSL==19.1.0
+PySocks==1.7.1
+pytz==2020.1
+requests
+rsa
+simplejson
+six
+uritemplate==3.0.1
+urllib3
+</code></pre></td></tr></table>
+</div>
+</div><figure>
+     <figcaption>
+            <h4>Configuração da linguagem e ponto de entrada</h4>
+        </figcaption>
+</figure>
+
+<h2 id="uso">Uso</h2>
+<p>Para ativar a função basta agora chamá-la pelo seu link com os parâmetros necessários.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">https://{endereço da função}.cloudfunctions.net/{nome da função}?project={project id}&amp;zone={zona}&amp;instance={nome da instância}
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>endereço da função e nome da função: é o endereço fornecido no momento em que você <a href="#criar-a-cloud-function" rel="">criou a Cloud Function</a></li>
+<li>project id: pode ser visto no dashboard do seu projeto:
+<figure>
+     <figcaption>
+            <h4>Encontrando a id do projeto</h4>
+        </figcaption>
+</figure>
+</li>
+<li>zona e nome da instancia: podem ser vistos na página de resumo do Compute Engine
+<figure>
+     <figcaption>
+            <h4>Encontrando a id do projeto</h4>
+        </figcaption>
+</figure>
+</li>
+</ul>
+<p>Agora é só salvar os links nos favoritos e pronto, não será mais necessário logar no Cloud Console toda vez que precisar ligar ou desligar uma instância.</p>]]></description>
+</item></channel>
+</rss>

@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Ligar e desligar instâncias do Google Compute Engine através de um link - Blog do Pedro Pozzobon</title><meta name="Description" content="Aprenda a ligar e desligar uma máquina virtual do Compute Engine sem precisar entrar no console do Google Cloud."><meta property="og:title" content="Ligar e desligar instâncias do Google Compute Engine através de um link" />
+<meta property="og:description" content="Aprenda a ligar e desligar uma máquina virtual do Compute Engine sem precisar entrar no console do Google Cloud." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://pedropozzobon.com/ligar-desligar-instancia-compute-engine-link/" />
+<meta property="article:published_time" content="2020-08-02T12:01:14-03:00" />
+<meta property="article:modified_time" content="2020-08-02T12:01:14-03:00" />
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Ligar e desligar instâncias do Google Compute Engine através de um link"/>
+<meta name="twitter:description" content="Aprenda a ligar e desligar uma máquina virtual do Compute Engine sem precisar entrar no console do Google Cloud."/>
+<meta name="application-name" content="Blog pessoal de Pedro Pozzobon">
+<meta name="apple-mobile-web-app-title" content="Blog pessoal de Pedro Pozzobon"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="icon" href="safari-pinned-tab.svg"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="http://pedropozzobon.com/ligar-desligar-instancia-compute-engine-link/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Ligar e desligar instâncias do Google Compute Engine através de um link",
+        "inLanguage": "pt-br",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "http:\/\/pedropozzobon.com\/ligar-desligar-instancia-compute-engine-link\/"
+        },"genre": "posts","keywords": "Google Cloud","wordcount":  643 ,
+        "url": "http:\/\/pedropozzobon.com\/ligar-desligar-instancia-compute-engine-link\/","datePublished": "2020-08-02T12:01:14-03:00","dateModified": "2020-08-02T12:01:14-03:00","publisher": {
+            "@type": "Organization",
+            "name": "Pedro Pozzobon"},"author": {
+                "@type": "Person",
+                "name": "Pedro Pozzobon"
+            },"description": "Aprenda a ligar e desligar uma máquina virtual do Compute Engine sem precisar entrar no console do Google Cloud."
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Blog do Pedro Pozzobon"></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/" title="Home"> Início </a><a class="menu-item" href="/posts/" title="Todos os posts"> Posts </a><a class="menu-item" href="/tags/" title="Todas as tags"> Tags </a><a class="menu-item" href="/about/" title="Sobre"> Sobre </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Pesquisar títulos ou conteúdos ..." id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Pesquisa">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Limpar">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Trocar tema">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Blog do Pedro Pozzobon"></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Pesquisar títulos ou conteúdos ..." id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Pesquisa">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Limpar">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancelar
+                    </a>
+                </div><a class="menu-item" href="/" title="Home">Início</a><a class="menu-item" href="/posts/" title="Todos os posts">Posts</a><a class="menu-item" href="/tags/" title="Todas as tags">Tags</a><a class="menu-item" href="/about/" title="Sobre">Sobre</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Trocar tema">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><div class="toc" id="toc-auto">
+            <h2 class="toc-title">Conteúdos</h2>
+            <div class="toc-content" id="toc-content-auto"></div>
+        </div><article class="page single"><h1 class="single-title animated flipInX">Ligar e desligar instâncias do Google Compute Engine através de um link</h1><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="http://pedropozzobon.com" title="Author" target="_blank" rel="noopener noreffer author" class="author"><i class="fas fa-user-circle fa-fw"></i>Pedro Pozzobon</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2020-08-02">2020-08-02</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;643 palavras&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;4 minutos&nbsp;</div>
+        </div><div class="details toc" id="toc-static"  kept="">
+                <div class="details-summary toc-title">
+                    <span>Conteúdos</span>
+                    <span><i class="details-icon fas fa-angle-right"></i></span>
+                </div>
+                <div class="details-content toc-content" id="toc-content-static"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#motivação">Motivação</a></li>
+    <li><a href="#criar-nova-conta-de-serviço">Criar nova conta de serviço</a></li>
+    <li><a href="#criar-a-cloud-function">Criar a Cloud Function</a></li>
+    <li><a href="#uso">Uso</a></li>
+  </ul>
+</nav></div>
+            </div><div class="content" id="content"><h2 id="motivação">Motivação</h2>
+<p>Sempre achei a interface do console do Google Cloud terrivelmente lenta. Em um projeto recente havia a necessidade de ligar e desligar constantemente uma máquina virtual, além de ativar/desativar regras de firewall. A quantidade de vezes em que via a tela de carregamento da interface no console já foi motivação suficiente para tentar automatizar essa tarefa.</p>
+<figure>
+    <img src="google-cloud-loading.png"/> <figcaption>
+            <h4>Tela de carregamento do Google Cloud</h4>
+        </figcaption>
+</figure>
+
+<p>A solução encontrada foi fazer uma Cloud Function ativada por um request http (ou um link) que liga/desliga uma determinada máquina. Inicialmente procurei por uma solução mais simples, em que não fosse necessário nenhum tipo de código. Caso alguém conheça uma forma mais simples de fazer a mesma tarefa, por favor se manifeste nos comentários.</p>
+<p>O código das funções pode ser visto em <a href="https://github.com/ppozzobon/cloud_funcs_utils" target="_blank" rel="noopener noreffer">meu Github</a>.</p>
+<h2 id="criar-nova-conta-de-serviço">Criar nova conta de serviço</h2>
+<p>A conta de serviço é utilizada pela Cloud Function para interagir com os outros serviços do Google Cloud. Ela deve ter os privilégios suficientes para realizar as tarefas que a função precisa executar.</p>
+<p>Procure pelo item IAM - Admin no Cloud Console, vá para contas de serviço e crie uma nova.</p>
+<figure>
+    <img src="iam.png" width="450"/> <figcaption>
+            <h4>Caminho para criar a conta de serviço</h4>
+        </figcaption>
+</figure>
+
+<p>Dê um nome e uma descrição para conta e vá para o próximo passo.</p>
+<figure>
+    <img src="create-service-account.png" width="450"/> 
+</figure>
+
+<p>Defina um papel adequado para a conta. O papel é o que determina o que os serviços que usam essa conta podem ou não podem fazer. Como no caso pretendemos modificar configurações do Compute Engine, sugiro o papel Compute Admin.</p>
+<figure>
+    <img src="iam-roles.png" width="450"/> <figcaption>
+            <h4>Selecione o papel adequado para a conta de serviço</h4>
+        </figcaption>
+</figure>
+
+<p>O último passo não necessita de nenhuma configuração específica.</p>
+<h2 id="criar-a-cloud-function">Criar a Cloud Function</h2>
+<p>Para criar essa Cloud Function, procure esse serviço no console e ative-o, se necesssário. Crie uma nova função, dando um nome e uma região. No tipo de <em>trigger</em>, selecione http e permita chamadas não autenticadas. Isso é potencialmente falho do ponto de vista da segurança, pois qualquer um que conheça a URL e os parâmetros de invocação da função será capaz de ligar/desligar suas máquinas.</p>
+<figure>
+    <img src="function-trigger.png" width="450"/> <figcaption>
+            <h4>Configurações de *triggering* (invocação) da função</h4>
+        </figcaption>
+</figure>
+
+<p>Clique em configurações avançadas e defina a conta de serviço que acabou de ser criada:</p>
+<figure>
+    <img src="cloud-function-service-account.png" width="450"/> <figcaption>
+            <h4>Defina a conta de serviço a ser usada pela Cloud Funtion</h4>
+        </figcaption>
+</figure>
+
+<p>No próximo passo selecione a linguagem da função como python e defina o ponto de entrada para <code>main</code>. Copie e cole o código da função e do arquivo <code>requirements.txt</code>.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">googleapiclient.discovery</span>
+
+<span class="n">compute</span> <span class="o">=</span> <span class="n">googleapiclient</span><span class="o">.</span><span class="n">discovery</span><span class="o">.</span><span class="n">build</span><span class="p">(</span><span class="s1">&#39;compute&#39;</span><span class="p">,</span> <span class="s1">&#39;v1&#39;</span><span class="p">,</span> <span class="n">cache_discovery</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="s2">&#34;&#34;&#34;Toggles compute engine instance start-stop
+</span><span class="s2">    &#34;&#34;&#34;</span>
+
+    <span class="n">project</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;project&#39;</span><span class="p">)</span>
+    <span class="n">zone</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;zone&#39;</span><span class="p">)</span>
+    <span class="n">instance_name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;instance&#39;</span><span class="p">)</span>
+
+    <span class="c1"># get current state</span>
+    <span class="n">instance</span> <span class="o">=</span> <span class="n">compute</span><span class="o">.</span><span class="n">instances</span><span class="p">()</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">,</span>
+                                <span class="n">zone</span><span class="o">=</span><span class="n">zone</span><span class="p">,</span>
+                                <span class="n">instance</span><span class="o">=</span><span class="n">instance_name</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+
+    <span class="c1"># decide command</span>
+    <span class="k">if</span> <span class="n">instance</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&#34;TERMINATED&#34;</span><span class="p">:</span>
+        <span class="n">compute</span><span class="o">.</span><span class="n">instances</span><span class="p">()</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">,</span>
+                                <span class="n">zone</span><span class="o">=</span><span class="n">zone</span><span class="p">,</span>
+                                <span class="n">instance</span><span class="o">=</span><span class="n">instance_name</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="s2">&#34;{} turned on&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">instance_name</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">compute</span><span class="o">.</span><span class="n">instances</span><span class="p">()</span><span class="o">.</span><span class="n">stop</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">,</span>
+                                <span class="n">zone</span><span class="o">=</span><span class="n">zone</span><span class="p">,</span>
+                                <span class="n">instance</span><span class="o">=</span><span class="n">instance_name</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
+        
+        <span class="k">return</span> <span class="s2">&#34;{} turned off&#34;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">instance_name</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">brotlipy==0.7.0
+cachetools
+certifi==2020.6.20
+cffi==1.14.0
+chardet==3.0.4
+cryptography
+google-api-core
+google-api-python-client
+google-auth
+google-auth-httplib2==0.0.3
+googleapis-common-protos==1.51.0
+httplib2
+idna
+protobuf
+pyasn1==0.4.8
+pyasn1-modules==0.2.7
+pycparser
+pyOpenSSL==19.1.0
+PySocks==1.7.1
+pytz==2020.1
+requests
+rsa
+simplejson
+six
+uritemplate==3.0.1
+urllib3
+</code></pre></td></tr></table>
+</div>
+</div><figure>
+    <img src="cloud-function.png"/> <figcaption>
+            <h4>Configuração da linguagem e ponto de entrada</h4>
+        </figcaption>
+</figure>
+
+<h2 id="uso">Uso</h2>
+<p>Para ativar a função basta agora chamá-la pelo seu link com os parâmetros necessários.</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-fallback" data-lang="fallback">https://{endereço da função}.cloudfunctions.net/{nome da função}?project={project id}&amp;zone={zona}&amp;instance={nome da instância}
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>endereço da função e nome da função: é o endereço fornecido no momento em que você <a href="#criar-a-cloud-function" rel="">criou a Cloud Function</a></li>
+<li>project id: pode ser visto no dashboard do seu projeto:
+<figure>
+    <img src="project-info.png" width="300"/> <figcaption>
+            <h4>Encontrando a id do projeto</h4>
+        </figcaption>
+</figure>
+</li>
+<li>zona e nome da instancia: podem ser vistos na página de resumo do Compute Engine
+<figure>
+    <img src="instance-name.png"/> <figcaption>
+            <h4>Encontrando a id do projeto</h4>
+        </figcaption>
+</figure>
+</li>
+</ul>
+<p>Agora é só salvar os links nos favoritos e pronto, não será mais necessário logar no Cloud Console toda vez que precisar ligar ou desligar uma instância.</p></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Atualizado em 2020-08-02</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Compartilhe em Twitter" data-sharer="twitter" data-url="http://pedropozzobon.com/ligar-desligar-instancia-compute-engine-link/" data-title="Ligar e desligar instâncias do Google Compute Engine através de um link" data-hashtags="Google Cloud"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Compartilhe em Facebook" data-sharer="facebook" data-url="http://pedropozzobon.com/ligar-desligar-instancia-compute-engine-link/" data-hashtag="Google Cloud"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Compartilhe em Linkedin" data-sharer="linkedin" data-url="http://pedropozzobon.com/ligar-desligar-instancia-compute-engine-link/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="Compartilhe em Evernote" data-sharer="evernote" data-url="http://pedropozzobon.com/ligar-desligar-instancia-compute-engine-link/" data-title="Ligar e desligar instâncias do Google Compute Engine através de um link"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/google-cloud/">Google Cloud</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Voltar</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"></div>
+</div>
+</article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line"><span class="author" itemprop="copyrightHolder">&nbsp;<a href="http://pedropozzobon.com" target="_blank">Pedro Pozzobon</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Voltar ao topo">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="Ver comentários">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.stemmer.support.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.pt.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copiar para a área de transferência","maxShownLines":200},"comment":{},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","lunrLanguageCode":"pt","maxResultLength":10,"noResultsFound":"Nenhum resultado encontrado","snippetLength":30,"type":"lunr"}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
