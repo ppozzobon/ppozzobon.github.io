@@ -2,10 +2,12 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>http://pedropozzobon.com/</loc><lastmod>2020-08-02T12:01:14-03:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://pedropozzobon.com/tags/google-cloud/</loc><lastmod>2020-08-02T12:01:14-03:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://pedropozzobon.com/ligar-desligar-instancia-compute-engine-link/</loc><lastmod>2020-08-02T12:01:14-03:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://pedropozzobon.com/posts/</loc><lastmod>2020-08-02T12:01:14-03:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://pedropozzobon.com/tags/</loc><lastmod>2020-08-02T12:01:14-03:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>http://pedropozzobon.com/about/</loc><lastmod>2020-07-15T21:07:49-03:00</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url><url>
+            <loc>http://pedropozzobon.com/</loc><lastmod>2021-03-07T20:26:45-03:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://pedropozzobon.com/posts/</loc><lastmod>2021-03-07T20:26:45-03:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://pedropozzobon.com/tags/python/</loc><lastmod>2021-03-07T20:26:45-03:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://pedropozzobon.com/tags/</loc><lastmod>2021-03-07T20:26:45-03:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://pedropozzobon.com/transi%C3%A7%C3%A3o-do-matlab-para-python/</loc><lastmod>2021-03-07T20:26:45-03:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>http://pedropozzobon.com/tags/google-cloud/</loc><lastmod>2020-08-02T12:01:14-03:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://pedropozzobon.com/ligar-desligar-instancia-compute-engine-link/</loc><lastmod>2020-08-02T12:01:14-03:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>http://pedropozzobon.com/about/</loc><lastmod>2020-07-15T21:07:49-03:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>http://pedropozzobon.com/categories/</loc><changefreq>weekly</changefreq><priority>0.5</priority></url></urlset>

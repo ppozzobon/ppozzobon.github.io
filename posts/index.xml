@@ -4,7 +4,117 @@
         <link>http://pedropozzobon.com/posts/</link>
         <description>Todos Posts | Blog do Pedro Pozzobon</description>
         <generator>Hugo -- gohugo.io</generator><language>pt-br</language><managingEditor>pedro@aeroinovacoes.com (Pedro Pozzobon)</managingEditor>
-            <webMaster>pedro@aeroinovacoes.com (Pedro Pozzobon)</webMaster><lastBuildDate>Sun, 02 Aug 2020 12:01:14 -0300</lastBuildDate><atom:link href="http://pedropozzobon.com/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>pedro@aeroinovacoes.com (Pedro Pozzobon)</webMaster><lastBuildDate>Sun, 07 Mar 2021 20:26:45 -0300</lastBuildDate><atom:link href="http://pedropozzobon.com/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>Transição do Matlab para Python</title>
+    <link>http://pedropozzobon.com/transi%C3%A7%C3%A3o-do-matlab-para-python/</link>
+    <pubDate>Sun, 07 Mar 2021 20:26:45 -0300</pubDate>
+    <author>Autor</author>
+    <guid>http://pedropozzobon.com/transi%C3%A7%C3%A3o-do-matlab-para-python/</guid>
+    <description><![CDATA[<p>Minha entrada no mundo da programação se iniciou com o Matlab durante a faculdade. O mesmo acontece com boa parte dos engenheiros mecânicos, eletricistas ou civis (basicamente qualquer engenharia que não as de software e computação).</p>
+<p>A transição para python ocorreu após a universidade, quando busquei estudar o que era ciência de dados e machine learning. Hoje uso python também nas tarefas de engenharia, pois se mostrou um ambiente muito mais flexível e produtivo que o Matlab, com a vantagem adicional de ser open-source.</p>
+<p>A curva de aprendizado para chegar em um nível em que você realmente é produtivo ao escrever código foi um pouco longa. O intuito dessa série de textos é mostrar alguns tópicos importantes nessa jornada, para que talvez a sua seja mais rápida.</p>
+<h2 id="bibliotecas">Bibliotecas</h2>
+<p>Uma das principais diferenças é que o ecossistema de python é fragmentado em bibliotecas. Cada biblioteca deverá ser instalada separadamente e importada no início da excução do código. Além disso, cada uma terá uma uma documentação própria, que pode variar em qualidade. No caso do Matlab todas as funções tem uma documentação consistente, que pode ser acessada diretamente da própria IDE.</p>
+<p>As bibliotecas necessárias para desempenhar as tarefas mais comuns se você vem de um background de engenharia são:</p>
+<ul>
+<li>Numpy: álgebra linear</li>
+<li>Scipy: computação numérica (integração, interpolação e otimização, processamento de sinais e outros)</li>
+<li>matplotlib: gráficos</li>
+<li>statsmodels: estatística</li>
+<li>pandas: funções de dataframes (equivalentes às Tables do matlab), importação de arquivos de texto e excel</li>
+<li>simpy: matemática simbólica</li>
+</ul>
+<p>Como a comunidade é muito grande certamente existem bibliotecas prontas para uma necessidade muito específica. Exemplos:</p>
+<ul>
+<li><a href="https://pythonhosted.org/uncertainties/" target="_blank" rel="noopener noreffer">uncertainties</a>: lida com cálculos de incerteza e propagação de erros</li>
+<li><a href="https://github.com/adtzlr/trusspy" target="_blank" rel="noopener noreffer">trusspy</a> : análise estrutural de treliças</li>
+</ul>
+<p>Tais recursos não são encontrados no Matlab ou suas toolboxes e podem ser um tremendo diferencial no aumento da produtividade de algumas tarefas.</p>
+<h2 id="instalação-de-bibliotecas">Instalação de bibliotecas</h2>
+<p>Em todo tutorial você verá</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">pip install &lt;nome da biblioteca&gt;
+</code></pre></td></tr></table>
+</div>
+</div><p><strong>Não</strong> instale bibliotecas dessa forma se você instalou seu ambiente python usando o Anaconda. Substitua por</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">conda install &lt;nome da biblioteca&gt;
+</code></pre></td></tr></table>
+</div>
+</div><p>Conda e pip são dois gerenciadores de pacotes distintos. Caso você utilize ambos simultaneamente você terá mais dificuldades em recriar o seu ambiente, além de estar mais sujeito à conflitos de versões. Essa &ldquo;bagunça&rdquo; de ambientes é a principal responsável do problema de um código executar sem problemas em uma máquina e não executa em outra. Quando se deparar com esse problema a primeira providência é garantir que as bibliotecas necessárias para a execução do código sejam as mesmas em ambas as máquinas (<a href="https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#restoring-an-environment" target="_blank" rel="noopener noreffer">leia sobre conda environments para saber como fazer isso</a>).</p>
+<h2 id="organização-e-escrita-do-código">Organização e escrita do código</h2>
+<p>Uma das coisas que mais me incomodava no matlab era a impossibilidade de agrupar mais de uma função no mesmo arquivo de texto. Como resultado em algumas situações haviam dezenas de arquivos, muitas vezes com funções muito parecidas.</p>
+<p>Em python não existe esse problema. Escreva suas funções em quantos arquivos de texto quiser. Para chamá-las, em outro arquivo, basta fazer uma importação. Digamos que você queira importar todo o conteúdo de um script chamado &ldquo;utils&rdquo;, localizado dentro da pasta &ldquo;lib&rdquo;. Basta fazer:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">lib.utils</span> <span class="kn">as</span> <span class="nn">utils</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Para as importações funcionarem é necessário criar um arquivo de nome __init__.py dentro da pasta lib. Esse arquivo pode ser vazio, ou possuir algum código, que será executado no momento da importação.</p>
+<p>O caminho que você indicar para a importação do seu script é relativo a onde o processo do python está sendo executado. Para saber onde &ldquo;está&rdquo; o interpretador, faça:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">os</span>
+<span class="n">os</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span>
+<span class="c1"># cwd = current working directory</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Caso se depare com algum erro durante a importação dos seus próprios scripts, leia sobre <a href="https://chrisyeh96.github.io/2017/08/08/definitive-guide-python-imports.html" target="_blank" rel="noopener noreffer">absolute e relative imports</a>.</p>
+<h2 id="modo-de-uso">Modo de uso</h2>
+<p>Existem duas &ldquo;formas de usar&rdquo; python: utilizando Jupyter Notebooks (equivalente ao Live Editor do Matlab) ou escrevendo e executando scripts.</p>
+<p>Jupyter Notebooks é uma interface não apenas para executar python, mas outras linguagens também. Como vantagem é uma experiência de uso mais natural, principalmente se a tarefa é gerar gráficos e analisar dados, e a possibilidade de misturar texto, imagens e equações com código, facilitando o compartilhamento com usuários não técnicos.</p>
+<p>A grande desvantagem é a impossibilidade de debugar o código, isto é, não há como &ldquo;pausar&rdquo; a execução do código na ocorrência de um erro para facilitar entender o que deu errado. Nesses casos uma alternativa é converter o jupyter notebook em um script comum e debugar o script.</p>
+<h2 id="if-__init__--__name__">if __init__ == &ldquo;__name__&quot;:</h2>
+<p>Você verá esse trecho de código em vários lugares. A função dele é verificar &ldquo;onde&rdquo; está ocorrendo a execuçao do código: se você está executando o script o resultado da condição é True. Caso outro arquivo chame a execução do script, a condição é False.</p>
+<p>Um uso interessante é para você fazer pequenos testes com as funções escritas no seu script. Exemplo:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">func1</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+		<span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">y</span>
+
+<span class="k">def</span> <span class="nf">func2</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">):</span>
+	<span class="k">return</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span>
+
+<span class="k">if</span> <span class="fm">__init__</span> <span class="o">==</span> <span class="s2">&#34;__name__&#34;</span><span class="p">:</span>
+	<span class="mi">5</span> <span class="o">==</span> <span class="n">func1</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+	<span class="mi">8</span> <span class="o">==</span> <span class="n">func2</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Ao ser executado, esse script retorna True, True</p>
+<h2 id="ide">IDE</h2>
+<p>Minha recomendação de IDE é o <a href="https://code.visualstudio.com/" target="_blank" rel="noopener noreffer">VS Code</a>. O VS Code é um editor de texto básico, que pode ter suas funcionalidades estendidas através de extensões, podendo assim ser transformado em uma IDE completa. Para isso instale a extensão Python e estará pronto para uso.</p>
+<p>Um dos recursos mais interessantes é o suporte nativo aos Jupyter Notebooks, não sendo necessário trocar a interface para usá-los.</p>
+<hr>
+<p>Tem alguma dúvida? Lembra de algum tópico que demorou para enteder? Escreva nos comentários.</p>
+]]></description>
+</item><item>
     <title>Ligar e desligar instâncias do Google Compute Engine através de um link</title>
     <link>http://pedropozzobon.com/ligar-desligar-instancia-compute-engine-link/</link>
     <pubDate>Sun, 02 Aug 2020 12:01:14 -0300</pubDate>
