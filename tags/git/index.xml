@@ -1,0 +1,200 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>git - Tag - Blog do Pedro Pozzobon</title>
+        <link>http://pedropozzobon.com/tags/git/</link>
+        <description>git - Tag - Blog do Pedro Pozzobon</description>
+        <generator>Hugo -- gohugo.io</generator><language>pt-br</language><managingEditor>pedro@aeroinovacoes.com (Pedro Pozzobon)</managingEditor>
+            <webMaster>pedro@aeroinovacoes.com (Pedro Pozzobon)</webMaster><lastBuildDate>Sat, 10 Apr 2021 14:44:52 -0300</lastBuildDate><atom:link href="http://pedropozzobon.com/tags/git/" rel="self" type="application/rss+xml" /><item>
+    <title>Git em 5 Minutos</title>
+    <link>http://pedropozzobon.com/git-em-5-minutos/</link>
+    <pubDate>Sat, 10 Apr 2021 14:44:52 -0300</pubDate>
+    <author>Autor</author>
+    <guid>http://pedropozzobon.com/git-em-5-minutos/</guid>
+    <description><![CDATA[<p>Alguns dias atrás fiz uma apresentação sobre git para alguns colegas de trabalho. O público era de engenheiros com alguma experiência em programação aplicada em engenharia, porém nunca tiveram contato com softwares de controle de versão.</p>
+<p>Adaptei a apresentação para um post. Espero que possa ser útil para você também.</p>
+<hr>
+<h2 id="git-x-gitlab-x-github">Git x GitLab x GitHub</h2>
+<ul>
+<li>git: software de controle de versão</li>
+<li>GitLab e GitHub: provedores de repositórios remotos (não é obrigatório usá-los)</li>
+</ul>
+<hr>
+<h2 id="funcionamento">Funcionamento</h2>
+<ul>
+<li>Controle de versão <strong>distribuído</strong>: cada um pode editar o mesmo arquivo simultaneamente</li>
+<li>repositório local (sua máquina) vs repositório remoto (GitLab)</li>
+<li>as mudanças (<em>commits</em>) só vão para o repositório remoto depois do comando <code>pull</code>
+<ul>
+<li>caso as mudanças do <code>pull</code> causem conflito elas não serão aplicadas (até que se resolvam todos os conflitos)</li>
+</ul>
+</li>
+</ul>
+<figure>
+     <figcaption>
+            <p>Fluxo das informações com o git. Crédito: <a href='https://www.w3docs.com/'>w3docs</a></p>
+        </figcaption>
+</figure>
+
+<hr>
+<h2 id="instalação-windows">Instalação (Windows)</h2>
+<ul>
+<li>
+<p>Instalar com todas as opções recomendadas ativadas: <a href="https://git-scm.com/" target="_blank" rel="noopener noreffer">Git</a></p>
+</li>
+<li>
+<p>Instalar o Windows Terminal (opcional; facilita algumas tarefas). <a href="https://www.microsoft.com/store/productId/9N0DX20HK701" target="_blank" rel="noopener noreffer">Get Windows Terminal - Microsoft Store</a></p>
+</li>
+<li>
+<p>Instalar uma GUI (interface gráfica) para facilitar o uso. Recomendo o <a href="https://desktop.github.com/" target="_blank" rel="noopener noreffer">GitHub Desktop</a>. Outra opção é usar um editor de texto com interface do git integrada. Minha recomendação: <a href="https://code.visualstudio.com/" target="_blank" rel="noopener noreffer">Visual Studio Code</a></p>
+</li>
+</ul>
+<hr>
+<h2 id="configuração-das-chaves-ssh">Configuração das chaves ssh</h2>
+<div class="details admonition note open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-pencil-alt fa-fw"></i>Nota<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">Os itens 4 e 5 abaixo são específicos para o GitLab. Porém, em outros provedores serão semelhantes.</div>
+        </div>
+    </div>
+<ol>
+<li>As chaves ssh são a &ldquo;senha&rdquo; que o git usa para poder acessar os repositórios remotos</li>
+<li>Após instalação do git, abrir terminal e digitar <code>git-gui</code></li>
+<li>Help &gt; Show SSH Key &gt; Generate Key &gt; Copy to clipboard</li>
+<li>Logar no GitLab &gt; Profile &gt; Preferences &gt; SSH Keys (<a href="https://gitlab.com/-/profile/keys" target="_blank" rel="noopener noreffer">link direto</a>)</li>
+<li>Colar chave, selecionar data de validade (coloque pelo menos 1 ano) &gt; adicionar</li>
+<li>Adicionar o gitlab nos &ldquo;known hosts&rdquo;: Abrir o Terminal &gt; <code>ssh git@gitlab.com</code> &gt; <code>yes</code></li>
+</ol>
+<figure>
+     <figcaption>
+            <p>Adicionando o GitLab na lista dos <em>known hosts</em></p>
+        </figcaption>
+</figure>
+
+<p>Pronto, agora o git de sua máquina local conseguirá autenticar nos seus repositórios que estão no GitLab. Note que se o repositório remoto estiver em outro servidor (ex. GitHub, esse processo tem que ser repetido lá).</p>
+<hr>
+<h2 id="configuração-do-git">Configuração do git</h2>
+<p>Abrir o Terminal:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">$ git config --global user.name <span class="s2">&#34;John Doe&#34;</span>
+$ git config --global user.email johndoe@example.com
+</code></pre></td></tr></table>
+</div>
+</div><p>Essas informações aparecerão nos <em>commits</em> feitos por você.</p>
+<hr>
+<h2 id="operações-básicas">Operações básicas</h2>
+<h3 id="commit">Commit</h3>
+<ul>
+<li>É o registro de uma alteração no código.</li>
+<li>É o análogo à operação &ldquo;salvar&rdquo; de um documento Word.</li>
+<li>É obrigatório adicionar uma &ldquo;commit message&rdquo;: frase curta que descreve o que foi alterado</li>
+</ul>
+<h3 id="pull--push">Pull / Push</h3>
+<ul>
+<li>Pull: trazer commits novos do remoto → local</li>
+<li>Push: enviar commits novos do local → remoto
+<ul>
+<li>pode resultar em erro se os seus commits entrarem em conflito com os que estão no repositório remoto</li>
+</ul>
+</li>
+</ul>
+<h3 id="criar-repositório">Criar repositório</h3>
+<ul>
+<li>Iniciar essa operação primeiro no GitLab/GitHub</li>
+<li>Atenção ao passo de &ldquo;initialize with README&rdquo; caso pretenda fazer upload de uma pasta já existente</li>
+</ul>
+<h3 id="branch-e-merge">Branch e Merge</h3>
+<ul>
+<li>Branch são &ldquo;versões&rdquo; diferentes do seu código, que co-existem no seu  repositório</li>
+<li>Uso: quando você quer desenvolver um novo recurso no seu código, mas não quer alterar o que já está funcionando: crie uma branch nova e vá fazendo commits nessa nova branch. Quando tudo estiver funcionando como esperado, faça o merge dessa branch com a master</li>
+</ul>
+<figure>
+     <figcaption>
+            <p>Fluxo das diferentes <em>branches</em>. <a href="https://www.nobledesktop.com">Créditos<a></p>
+        </figcaption>
+</figure>
+
+<h3 id="resolver-conflitos">Resolver conflitos</h3>
+<p>Ler este artigo: <a href="https://docs.github.com/pt/github/collaborating-with-issues-and-pull-requests/about-merge-conflicts" target="_blank" rel="noopener noreffer">Sobre conflitos de merge</a></p>
+<h3 id="voltar-no-tempo">&ldquo;Voltar no tempo&rdquo;</h3>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-bash" data-lang="bash">git checkout &lt;comitt-sha&gt;
+</code></pre></td></tr></table>
+</div>
+</div><ul>
+<li>Caso queira só ler o código é mais prático navegar pelo GitLab/GitHub.</li>
+</ul>
+<hr>
+<h2 id="tópicos-adicionais">Tópicos adicionais</h2>
+<ul>
+<li>Arquivo <code>.gitignore</code>
+<ul>
+<li>usado para definir arquivos e pastas que não devem ser rastreados. <a href="https://github.com/OpenFAST/openfast/blob/main/.gitignore" target="_blank" rel="noopener noreffer">Exemplo</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="boas-práticas-ao-escrever-códigos">Boas práticas ao escrever códigos</h2>
+<p>O código deve ser organizado e legível o suficiente para que possa ser lido e entendido por outra pessoa e também por você mesmo após alguns meses. A &ldquo;dica&rdquo; que mais contribui para escrever um código legível é:</p>
+<ul>
+<li>nomes de variáveis descritivos</li>
+<li>não usar números mágicos</li>
+</ul>
+<p>O código deve ser auto-explicativo, muitas vezes sem necessidade de comentários. Se você precisa fazer um comentário para explicar o que está fazendo no código, talvez seja um sinal que não respeitou as premissas acima.</p>
+<p>Leitura recomendada: <a href="https://betterprogramming.pub/clean-code-naming-b90740cbae12" target="_blank" rel="noopener noreffer">Clean Code: Naming</a></p>
+<p>Exemplos:</p>
+<p>Nomes de variáveis devem ser descritivos:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># ruim:</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="n">E</span> <span class="o">*</span> <span class="n">A</span> <span class="o">*</span> <span class="n">epsilon</span>
+
+<span class="c1"># bom:</span>
+<span class="n">axial_tension</span> <span class="o">=</span> <span class="n">youngModulus</span> <span class="o">*</span> <span class="n">displacement</span> <span class="o">/</span> <span class="n">length</span>
+</code></pre></td></tr></table>
+</div>
+</div><p>Não usar &ldquo;números mágicos&rdquo;:</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre class="chroma"><code class="language-python" data-lang="python"><span class="c1"># ruim:</span>
+<span class="k">if</span> <span class="n">stress</span> <span class="o">&lt;</span> <span class="mf">860e6</span><span class="p">:</span>
+	<span class="o">...</span>
+
+<span class="c1"># bom:</span>
+<span class="n">allowable_stress</span> <span class="o">=</span> <span class="mf">860E6</span>
+
+<span class="k">if</span> <span class="n">stress</span> <span class="o">&lt;</span> <span class="n">allowable_stress</span><span class="p">:</span>
+	<span class="o">...</span>
+</code></pre></td></tr></table>
+</div>
+</div>]]></description>
+</item></channel>
+</rss>
