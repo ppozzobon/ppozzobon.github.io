@@ -1,0 +1,527 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <link rel="canonical" href="https://pedropozzobon.com/posts/git-em-5-minutos/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.3.9">
+    
+    
+      
+        <title>Git em 5 minutos - Pedro Pozzobon</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.1d29e8d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cbb835fc.min.css">
+        
+      
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="" data-md-color-accent="">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#git-x-gitlab-x-github" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Pedro Pozzobon" class="md-header__button md-logo" aria-label="Pedro Pozzobon" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Pedro Pozzobon
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Git em 5 minutos
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Pedro Pozzobon" class="md-nav__button md-logo" aria-label="Pedro Pozzobon" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    Pedro Pozzobon
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        About
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#git-x-gitlab-x-github" class="md-nav__link">
+    Git x GitLab x GitHub
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#funcionamento" class="md-nav__link">
+    Funcionamento
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#instalacao-windows" class="md-nav__link">
+    Instalação (Windows)
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuracao-das-chaves-ssh" class="md-nav__link">
+    Configuração das chaves ssh
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuracao-do-git" class="md-nav__link">
+    Configuração do git
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operacoes-basicas" class="md-nav__link">
+    Operações básicas
+  </a>
+  
+    <nav class="md-nav" aria-label="Operações básicas">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#commit" class="md-nav__link">
+    Commit
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pull-push" class="md-nav__link">
+    Pull / Push
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#criar-repositorio" class="md-nav__link">
+    Criar repositório
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#branch-e-merge" class="md-nav__link">
+    Branch e Merge
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resolver-conflitos" class="md-nav__link">
+    Resolver conflitos
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#voltar-no-tempo" class="md-nav__link">
+    "Voltar no tempo"
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#topicos-adicionais" class="md-nav__link">
+    Tópicos adicionais
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#boas-praticas-ao-escrever-codigos" class="md-nav__link">
+    Boas práticas ao escrever códigos
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+
+
+  <h1>Git em 5 minutos</h1>
+
+<p>Alguns dias atrás fiz uma apresentação sobre git para alguns colegas de trabalho. O público era de engenheiros com alguma experiência em programação aplicada em engenharia, porém nunca tiveram contato com softwares de controle de versão.</p>
+<p>Adaptei a apresentação para um post. Espero que possa ser útil para você também.</p>
+<hr />
+<h2 id="git-x-gitlab-x-github">Git x GitLab x GitHub<a class="headerlink" href="#git-x-gitlab-x-github" title="Permanent link">&para;</a></h2>
+<ul>
+<li>git: software de controle de versão</li>
+<li>GitLab e GitHub: provedores de repositórios remotos (não é obrigatório usá-los)</li>
+</ul>
+<hr />
+<h2 id="funcionamento">Funcionamento<a class="headerlink" href="#funcionamento" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Controle de versão <strong>distribuído</strong>: cada um pode editar o mesmo arquivo simultaneamente</li>
+<li>repositório local (sua máquina) vs repositório remoto (GitLab)</li>
+<li>as mudanças (<em>commits</em>) só vão para o repositório remoto depois do comando <code>pull</code><ul>
+<li>caso as mudanças do <code>pull</code> causem conflito elas não serão aplicadas (até que se resolvam todos os conflitos)</li>
+</ul>
+</li>
+</ul>
+<p><img alt="Fluxo das informações com o git. Fonte: w3docs.com" src="../../assets/git-flow.png" /></p>
+<hr />
+<h2 id="instalacao-windows">Instalação (Windows)<a class="headerlink" href="#instalacao-windows" title="Permanent link">&para;</a></h2>
+<ul>
+<li>
+<p>Instalar com todas as opções recomendadas ativadas: <a href="https://git-scm.com/">Git</a></p>
+</li>
+<li>
+<p>Instalar o Windows Terminal (opcional; facilita algumas tarefas). <a href="https://www.microsoft.com/store/productId/9N0DX20HK701">Get Windows Terminal - Microsoft Store</a></p>
+</li>
+<li>
+<p>Instalar uma GUI (interface gráfica) para facilitar o uso. Recomendo o <a href="https://desktop.github.com/">GitHub Desktop</a>. Outra opção é usar um editor de texto com interface do git integrada. Minha recomendação: <a href="https://code.visualstudio.com/">Visual Studio Code</a></p>
+</li>
+</ul>
+<hr />
+<h2 id="configuracao-das-chaves-ssh">Configuração das chaves ssh<a class="headerlink" href="#configuracao-das-chaves-ssh" title="Permanent link">&para;</a></h2>
+<p>{{&lt; admonition type=note open=true &gt;}}
+Os itens 4 e 5 abaixo são específicos para o GitLab. Porém, em outros provedores serão semelhantes.
+{{&lt; /admonition &gt;}}</p>
+<ol>
+<li>As chaves ssh são a "senha" que o git usa para poder acessar os repositórios remotos</li>
+<li>Após instalação do git, abrir terminal e digitar <code>git-gui</code></li>
+<li>Help &gt; Show SSH Key &gt; Generate Key &gt; Copy to clipboard</li>
+<li>Logar no GitLab &gt; Profile &gt; Preferences &gt; SSH Keys (<a href="https://gitlab.com/-/profile/keys">link direto</a>)</li>
+<li>Colar chave, selecionar data de validade (coloque pelo menos 1 ano) &gt; adicionar</li>
+<li>Adicionar o gitlab nos "known hosts": Abrir o Terminal &gt; <code>ssh git@gitlab.com</code> &gt; <code>yes</code></li>
+</ol>
+<p><img alt="Adicionando o GitLab na lista dos _known hosts_" src="../../assets/ssh-config.png" /></p>
+<p>Pronto, agora o git de sua máquina local conseguirá autenticar nos seus repositórios que estão no GitLab. Note que se o repositório remoto estiver em outro servidor (ex. GitHub, esse processo tem que ser repetido lá).</p>
+<hr />
+<h2 id="configuracao-do-git">Configuração do git<a class="headerlink" href="#configuracao-do-git" title="Permanent link">&para;</a></h2>
+<p>Abrir o Terminal:</p>
+<p><div class="highlight"><pre><span></span><code>$ git config --global user.name <span class="s2">&quot;John Doe&quot;</span>
+$ git config --global user.email johndoe@example.com
+</code></pre></div>
+Essas informações aparecerão nos <em>commits</em> feitos por você.</p>
+<hr />
+<h2 id="operacoes-basicas">Operações básicas<a class="headerlink" href="#operacoes-basicas" title="Permanent link">&para;</a></h2>
+<h3 id="commit">Commit<a class="headerlink" href="#commit" title="Permanent link">&para;</a></h3>
+<ul>
+<li>É o registro de uma alteração no código.</li>
+<li>É o análogo à operação "salvar" de um documento Word.</li>
+<li>É obrigatório adicionar uma "commit message": frase curta que descreve o que foi alterado</li>
+</ul>
+<h3 id="pull-push">Pull / Push<a class="headerlink" href="#pull-push" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Pull: trazer commits novos do remoto → local</li>
+<li>Push: enviar commits novos do local → remoto<ul>
+<li>pode resultar em erro se os seus commits entrarem em conflito com os que estão no repositório remoto</li>
+</ul>
+</li>
+</ul>
+<h3 id="criar-repositorio">Criar repositório<a class="headerlink" href="#criar-repositorio" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Iniciar essa operação primeiro no GitLab/GitHub</li>
+<li>Atenção ao passo de "initialize with README" caso pretenda fazer upload de uma pasta já existente</li>
+</ul>
+<h3 id="branch-e-merge">Branch e Merge<a class="headerlink" href="#branch-e-merge" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Branch são "versões" diferentes do seu código, que co-existem no seu  repositório</li>
+<li>Uso: quando você quer desenvolver um novo recurso no seu código, mas não quer alterar o que já está funcionando: crie uma branch nova e vá fazendo commits nessa nova branch. Quando tudo estiver funcionando como esperado, faça o merge dessa branch com a master</li>
+</ul>
+<p><img alt="Fluxo das diferentes _branches_. Fonte: nobledesktop.com" src="../../assets/git-branches-merge.png" /></p>
+<h3 id="resolver-conflitos">Resolver conflitos<a class="headerlink" href="#resolver-conflitos" title="Permanent link">&para;</a></h3>
+<p>Ler este artigo: <a href="https://docs.github.com/pt/github/collaborating-with-issues-and-pull-requests/about-merge-conflicts">Sobre conflitos de merge</a></p>
+<h3 id="voltar-no-tempo">"Voltar no tempo"<a class="headerlink" href="#voltar-no-tempo" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>git checkout &lt;comitt-sha&gt;
+</code></pre></div>
+<ul>
+<li>Caso queira só ler o código é mais prático navegar pelo GitLab/GitHub.</li>
+</ul>
+<hr />
+<h2 id="topicos-adicionais">Tópicos adicionais<a class="headerlink" href="#topicos-adicionais" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Arquivo <code>.gitignore</code><ul>
+<li>usado para definir arquivos e pastas que não devem ser rastreados. <a href="https://github.com/OpenFAST/openfast/blob/main/.gitignore">Exemplo</a> </li>
+</ul>
+</li>
+</ul>
+<hr />
+<h2 id="boas-praticas-ao-escrever-codigos">Boas práticas ao escrever códigos<a class="headerlink" href="#boas-praticas-ao-escrever-codigos" title="Permanent link">&para;</a></h2>
+<p>O código deve ser organizado e legível o suficiente para que possa ser lido e entendido por outra pessoa e também por você mesmo após alguns meses. A "dica" que mais contribui para escrever um código legível é:
+- nomes de variáveis descritivos
+- não usar números mágicos</p>
+<p>O código deve ser auto-explicativo, muitas vezes sem necessidade de comentários. Se você precisa fazer um comentário para explicar o que está fazendo no código, talvez seja um sinal que não respeitou as premissas acima.</p>
+<p>Leitura recomendada: <a href="https://betterprogramming.pub/clean-code-naming-b90740cbae12">Clean Code: Naming</a></p>
+<p>Exemplos:</p>
+<p>Nomes de variáveis devem ser descritivos:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ruim:</span>
+<span class="n">sigma</span> <span class="o">=</span> <span class="n">E</span> <span class="o">*</span> <span class="n">A</span> <span class="o">*</span> <span class="n">epsilon</span>
+
+<span class="c1"># bom:</span>
+<span class="n">axial_tension</span> <span class="o">=</span> <span class="n">youngModulus</span> <span class="o">*</span> <span class="n">displacement</span> <span class="o">/</span> <span class="n">length</span>
+</code></pre></div>
+<p>Não usar "números mágicos":</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># ruim:</span>
+<span class="k">if</span> <span class="n">stress</span> <span class="o">&lt;</span> <span class="mf">860e6</span><span class="p">:</span>
+    <span class="o">...</span>
+
+<span class="c1"># bom:</span>
+<span class="n">allowable_stress</span> <span class="o">=</span> <span class="mf">860E6</span>
+
+<span class="k">if</span> <span class="n">stress</span> <span class="o">&lt;</span> <span class="n">allowable_stress</span><span class="p">:</span>
+    <span class="o">...</span>
+</code></pre></div>
+
+              
+            </article>
+            
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    <a href="https://www.linkedin.com/in/eng-pedro-pozzobon/" target="_blank" rel="noopener" title="Linkedin" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+    </a>
+  
+    
+    
+    <a href="https://github.com/ppozzobon" target="_blank" rel="noopener" title="GitHub" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.b97dbffb.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.6c7ad80a.min.js"></script>
+      
+    
+  </body>
+</html>
