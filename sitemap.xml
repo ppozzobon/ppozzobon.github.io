@@ -21,6 +21,11 @@
          <changefreq>daily</changefreq>
     </url>
     <url>
+         <loc>https://pedropozzobon.com/posts/mkdocs/</loc>
+         <lastmod>2022-07-11</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
          <loc>https://pedropozzobon.com/posts/transicao-matlab-python/</loc>
          <lastmod>2022-07-11</lastmod>
          <changefreq>daily</changefreq>
